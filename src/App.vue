@@ -3,6 +3,14 @@ import todos from './data/todos';
 import StatusFilter from './components/StatusFilter.vue';
 import TodoItem from './components/TodoItem.vue';
 
+function getFromLocalStorage(key, defaultValue) {
+  try {
+    return JSON.parse(localStorage.getItem(key));
+  } catch (e) {
+    return defaultValue;
+  }
+}
+
 export default {
   name: 'App',
   components: {
@@ -10,24 +18,13 @@ export default {
     TodoItem,
   },
   data() {
-    let todos = [];
-    const jsonData = localStorage.getItem('todos') || '[]';
-
-    try {
-      todos = JSON.parse(jsonData);
-    } catch (e) {
-      console.error(e);
-    }
-
     return {
-      todos,
+      todos: getFromLocalStorage('todos', []),
       title: '',
       status: 'all',
     };
   },
-  mounted() {
-    console.log('App mounted!', this.todos);
-  },
+
   watch: {
     todos: {
       handler() {
