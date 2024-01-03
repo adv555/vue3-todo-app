@@ -71,7 +71,7 @@ export default {
         this.todos = data;
       })
       .catch(() => {
-        this.errorMessage = 'Failed to load todos';
+        this.$refs.errorMessage.show('Failed to load todos');
       });
   },
   methods: {
@@ -137,13 +137,9 @@ export default {
       </footer>
     </div>
 
-    <Message
-      class="is-warning"
-      :active="errorMessage !== ''"
-      @hide="errorMessage = ''"
-    >
-      <template #default="{ x }">
-        <p>{{ errorMessage }} {{ x }}</p>
+    <Message class="is-warning" ref="errorMessage">
+      <template #default="{ text }">
+        <p>{{ text }}</p>
       </template>
 
       <template #header>
